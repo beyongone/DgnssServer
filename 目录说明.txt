@@ -1,0 +1,31 @@
+
+AgnssCapture
+	数据采集服务
+
+AgnssCaster
+	数据分发服务
+	
+AgnssCommon
+	共享代码目录
+	
+AgnssServer	
+	数据处理服务
+	
+build
+	构建脚本目录
+
+comn
+	C++ 基础类库
+	
+doc
+	设计文档
+
+reference
+	参考文档
+
+setup
+	安装脚本,配置等
+
+third_party
+	第三方类库
+	

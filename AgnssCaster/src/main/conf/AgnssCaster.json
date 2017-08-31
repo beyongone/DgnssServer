@@ -1,0 +1,10 @@
+{
+	"http.host": "",
+	"http.port": 8000,
+	
+	"server": "tcp://127.0.0.1:5000",
+	
+	"timeout": 30,
+	
+	"end": "timeout 单位是秒."
+}

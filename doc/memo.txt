@@ -1,0 +1,13 @@
+
+
+http://127.0.0.1:8000/v1/device/agnss?client_id=wnlbs&device_id=test1&protocol=whmx&data_type=eph,alm&gnss=gps,bds,glo&pos=30.50,114.39,0
+
+http://127.0.0.1:8000/v1/device/agnss?client_id=wnlbs&device_id=demo&protocol=whmx&data_type=eph,alm&gnss=gps,bds,glo&pos=30.50,114.39,0
+
+106.14.240.153
+root
+Whmx0319
+
+http://106.14.240.153:8000/v1/device/list
+
+http://127.0.0.1:8000/v1/device/list

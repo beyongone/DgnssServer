@@ -1,0 +1,44 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+project(comn)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+
+if (MSVC)
+    #warning 4251
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4819 /wd4996 ")
+    
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/bin)
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/lib)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/lib)
+
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/bin)
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/lib)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/lib)
+    
+    if (MSVC90)
+        add_definitions(-D_BIND_TO_CURRENT_VCLIBS_VERSION=1)
+    endif()
+else()
+    
+endif()
+
+
+include_directories(${PROJECT_SOURCE_DIR}/include)
+
+aux_source_directory(src SOURCE)
+FILE(GLOB HEADER "include/*.h")
+
+add_library(comn STATIC ${SOURCE} ${HEADER})
+
+set_target_properties(comn PROPERTIES DEBUG_POSTFIX "d")
+set_property(TARGET comn PROPERTY POSITION_INDEPENDENT_CODE TRUE)
+
+option(DEMO "include demo" OFF)
+
+if (DEMO)
+add_subdirectory(demo)
+add_subdirectory(test)
+endif()
