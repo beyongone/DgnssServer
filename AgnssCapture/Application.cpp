@@ -180,7 +180,7 @@ bool Application::setupTcpServer()
 	server->setCaptureSink(m_captureSink);
 
 	std::string ip = config().get("App.IP", "0.0.0.0");
-	int port = config().getInt("App.Port", 3001);
+	int port = config().getInt("App.Port", 3010);
 
 	CLog::info("tcp server bind %s:%d\n", ip.c_str(), port);
 

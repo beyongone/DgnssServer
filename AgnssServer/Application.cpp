@@ -272,7 +272,7 @@ void Application::handleCaptureMessage(zmqpp::message& msg, AgnssFrameHeader& he
 bool Application::setupPublish()
 {
 	std::string server = config().get("App.IP", "0.0.0.0");
-	int port = config().getInt("App.Port", 5000);
+	int port = config().getInt("App.Port", 5002);
 
 	std::string endpoint = comn::StringUtil::format("tcp://%s:%d", server.c_str(), port);
 	try
