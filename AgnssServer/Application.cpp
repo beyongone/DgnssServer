@@ -17,8 +17,6 @@
 #include "TSafeStr.h"
 #include "json/json.h"
 
-//#include "Base64.h"
-
 
 #ifdef WIN32
 	const char* LOG_FILE     = "AgnssServer.log";
@@ -372,8 +370,6 @@ void Application::publish(DataProcessorPtr& processor, AgnssParam& param, DgnssD
 
 	encode(data.dgnss_gpsbdsout, data.dgnss_gpsbdslenout, data.dgnss_gpsbds, data.dgnss_gpsbdslen);
 
-	//writeBuffer(json, "aideph_gps", data.dgnss_gps, data.dgnss_gpslen);
-	//writeBuffer(json, "aideph_bds", data.dgnss_bds, data.dgnss_bdslen);
 	writeBuffer(json, "aideph_gpsbds", data.dgnss_gpsbdsout, data.dgnss_gpsbdslenout);
 		
 	Json::StyledWriter writer;

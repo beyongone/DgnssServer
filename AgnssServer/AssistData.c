@@ -17,10 +17,6 @@
 #pragma comment( lib,"winmm.lib" )
 #endif
 
-//#define MXTSTR_AIDEPH       ("$AIDEPH")
-//#define MXTSTR_GNRMC       ("$GNRMC")
-//#define MXTSTR_GNTXT       ("$GNTXT")
-
 #define NLBS_GPSEPH       ("#GPSEPHEMA")
 #define NLBS_BDSEPH       ("#BD2EPHEMA")
 #define MXTSTR_GNTXT       ("$GNTXT")
@@ -652,83 +648,6 @@ void AssistData_Init(raw_t* rawData)
 
 	memset(&rawData->refstation, 0, sizeof(rtcm_t));
 	DgnssData_Init(&rawData->refstation);
-#if 0
-	rawData->gps_dgnssdata.stah = 0;
-	rawData->gps_dgnssdata.seqno = 0;
-	rawData->gps_dgnssdata.outtype = 0;
-
-	rawData->gps_dgnssdata.obs.data = NULL;
-
-	for (i = 0; i<MAXSAT; i++) {
-		for (j = 0; j<NFREQ; j++) rawData->gps_dgnssdata.cp[i][j] = 0.0;
-		for (j = 0; j<NFREQ; j++) rawData->gps_dgnssdata.lock[i][j] = 0;
-		for (j = 0; j<NFREQ; j++) rawData->gps_dgnssdata.loss[i][j] = 0;
-		for (j = 0; j < NFREQ; j++) {
-			rawData->gps_dgnssdata.lltime[i][j].time = 0;
-			rawData->gps_dgnssdata.lltime[i][j].sec = 0;
-		}
-	}
-	//for (i = 0; i<MAXOBS; i++) dgnssData->obs.data[i] = data0;
-	for (i = 0; i < MAXOBS; i++) {
-		rawData->gps_dgnssdata.obs.data[i] = data0;
-	}
-
-	rawData->gps_dgnssdata.buff[0] = '\0';/* message buffer */
-	for (j = 0; j < 2; j++) {
-		rawData->gps_dgnssdata.gpsbdsbuff[j][0] = '\0';
-	}
-	rawData->gps_dgnssdata.opt[0] = '\0';
-	rawData->gps_dgnssdata.msg[0] = '\0';
-	rawData->gps_dgnssdata.msgtype[0] = '\0';
-	for (i = 0; i<6; i++) rawData->gps_dgnssdata.msmtype[i][0] = '\0';
-
-	rawData->gps_dgnssdata.obsflag = 0;/* obs data complete flag (1:ok,0:not complete) */
-	rawData->gps_dgnssdata.ephsat = 0; /* update satellite of ephemeris */
-	rawData->gps_dgnssdata.len = 0;
-	rawData->gps_dgnssdata.nbyte = 0;  /* number of bytes in message buffer */
-	rawData->gps_dgnssdata.nbit = 0; /* message length (bytes) */
-
-	rawData->gps_dgnssdata.nmsg3[0] = '\0';/* message count of RTCM 3 (1-299:1001-1299,0:ohter) */
-
-
-	rawData->bds_dgnssdata.stah = 0;
-	rawData->bds_dgnssdata.seqno = 0;
-	rawData->bds_dgnssdata.outtype = 0;
-
-	rawData->bds_dgnssdata.obs.data = NULL;
-
-	for (i = 0; i<MAXSAT; i++) {
-		for (j = 0; j<NFREQ; j++) rawData->bds_dgnssdata.cp[i][j] = 0.0;
-		for (j = 0; j<NFREQ; j++) rawData->bds_dgnssdata.lock[i][j] = 0;
-		for (j = 0; j<NFREQ; j++) rawData->bds_dgnssdata.loss[i][j] = 0;
-		for (j = 0; j < NFREQ; j++) {
-			rawData->bds_dgnssdata.lltime[i][j].time = 0;
-			rawData->bds_dgnssdata.lltime[i][j].sec = 0;
-		}
-	}
-	//for (i = 0; i<MAXOBS; i++) dgnssData->obs.data[i] = data0;
-	for (i = 0; i < MAXOBS; i++) {
-		rawData->bds_dgnssdata.obs.data[i] = data0;
-	}
-
-	rawData->bds_dgnssdata.buff[0] = '\0';/* message buffer */
-	for (j = 0; j < 2; j++) {
-		rawData->bds_dgnssdata.gpsbdsbuff[j][0] = '\0';
-	}
-	rawData->bds_dgnssdata.opt[0] = '\0';
-	rawData->bds_dgnssdata.msg[0] = '\0';
-	rawData->bds_dgnssdata.msgtype[0] = '\0';
-	for (i = 0; i<6; i++) rawData->bds_dgnssdata.msmtype[i][0] = '\0';
-
-	rawData->bds_dgnssdata.obsflag = 0;/* obs data complete flag (1:ok,0:not complete) */
-	rawData->bds_dgnssdata.ephsat = 0; /* update satellite of ephemeris */
-	rawData->bds_dgnssdata.len = 0;
-	rawData->bds_dgnssdata.nbyte = 0;  /* number of bytes in message buffer */
-	rawData->bds_dgnssdata.nbit = 0; /* message length (bytes) */
-
-	rawData->bds_dgnssdata.nmsg3[0] = '\0';/* message count of RTCM 3 (1-299:1001-1299,0:ohter) */
-
-#endif
 
 }
 
@@ -2079,8 +1998,6 @@ static int encode_msm_phrng(rtcm_t *rtcm, int i, const double *phrng, int ncell)
 			phrng_val = -2097152;
 		}
 		else if (fabs(phrng[j])>1171.0) {
-		//	trace(2, "msm fine phase-range overflow %s phrng=%.3f\n",
-		//		time_str(rtcm->time, 0), phrng[j]);
 			phrng_val = -2097152;
 		}
 		else {
@@ -2101,8 +2018,6 @@ static int encode_msm_psrng(rtcm_t *rtcm, int i, const double *psrng, int ncell)
 			psrng_val = -16384;
 		}
 		else if (fabs(psrng[j])>292.7) {
-	//		trace(2, "msm fine pseudorange overflow %s psrng=%.3f\n",
-	//			time_str(rtcm->time, 0), psrng[j]);
 			psrng_val = -16384;
 		}
 		else {
@@ -2145,8 +2060,6 @@ static int encode_msm_int_rrng(rtcm_t *rtcm, int i, const double *rrng,
 			int_ms = 255;
 		}
 		else if (rrng[j]<0.0 || rrng[j]>RANGE_MS*255.0) {
-	//		trace(2, "msm rough range overflow %s rrng=%.3f\n",
-	//			time_str(rtcm->time, 0), rrng[j]);
 			int_ms = 255;
 		}
 		else {
@@ -2164,8 +2077,6 @@ static int encode_msm4(rtcm_t *rtcm, int sys, int sync)
 	float cnr[64];
 	unsigned char half[64];
 	int i, nsat, ncell, lock[64];
-
-	//trace(3, "encode_msm4: sys=%d sync=%d\n", sys, sync);
 
 	/* encode msm header */
 	if (!(i = encode_msm_head(4, rtcm, sys, sync, &nsat, &ncell, rrng, rrate, NULL, psrng,
@@ -2192,8 +2103,6 @@ extern int encode_rtcm3(rtcm_t *rtcm, int type, int sync)
 {
 	int ret = 0;
 
-	//trace(3, "encode_rtcm3: type=%d sync=%d\n", type, sync);
-
 	switch (type) {
 	case 1074: ret = encode_msm4(rtcm, SYS_GPS, sync); break;
 	case 1124: ret = encode_msm4(rtcm, SYS_CMP, sync); break;
@@ -2217,8 +2126,6 @@ extern unsigned int crc24q(const unsigned char *buff, int len)
 	unsigned int crc = 0;
 	int i;
 
-//	trace(4, "crc24q: len=%d\n", len);
-
 	for (i = 0; i<len; i++) crc = ((crc << 8) & 0xFFFFFF) ^ tbl_CRC24Q[(crc >> 16) ^ buff[i]];
 	return crc;
 }
@@ -2234,8 +2141,6 @@ extern int gen_rtcm3(rtcm_t *rtcm, int type, int sync)
 {
 	unsigned int crc;
 	int i = 0;
-	//trace(4, "gen_rtcm3: type=%d sync=%d\n", type, sync);
-
 	rtcm->nbit = rtcm->len = rtcm->nbyte = 0;
 
 	/* set preamble and reserved */
@@ -2252,7 +2157,6 @@ extern int gen_rtcm3(rtcm_t *rtcm, int type, int sync)
 	}
 	/* message length (header+data) (bytes) */
 	if ((rtcm->len = i / 8) >= 3 + 1024) {
-		//trace(2, "generate rtcm 3 message length error len=%d\n", rtcm->len - 3);
 		rtcm->nbit = rtcm->len = 0;
 		return 0;
 	}
@@ -2373,7 +2277,6 @@ static void raw2rtcm(rtcm_t *gpsout,rtcm_t *bdsout, const raw_t *raw, int ret)
 		printf("BDSPRN:%d psr:%7.8lf L:%7.8lf D:%7.8lf SNR:%d \n", bdsout->obs.data[u].sat, bdsout->obs.data[u].P[0], bdsout->obs.data[u].L[0], bdsout->obs.data[u].D[0], bdsout->obs.data[u].SNR[0]);
 	}
 #endif
-	/**/
 }
 
 
@@ -2386,48 +2289,21 @@ void AssistData_Input(raw_t* rawData, int recid, char* buff, int len)
 	char navSysbds = 2;
 	char navSygps = 1;
 	char datatype = 1;
-	int i,prn,j,u;
+	int i, prn, j, u;
 	int bdsprn = 0;
 	int ret, ret_decode;
 	int nmsg = 2;
-	int k, m=2;
-	static int mestype[2] = {1074,1124};//1074 and 1124 message type
-	int begin,end;
-/*
-	rtcm_t  gps_dgnssdata;
-	rtcm_t  bds_dgnssdata;
-	memset(&gps_dgnssdata, 0, sizeof(rtcm_t));
-	DgnssData_Init(&gps_dgnssdata);
-	
-	memset(&bds_dgnssdata, 0, sizeof(rtcm_t));
-	DgnssData_Init(&bds_dgnssdata);
-*/
+	int k, m = 2;
+	static int mestype[2] = { 1074,1124 };//1074 and 1124 message type
+	int begin, end;
+
 	for (i = 0; i < len; i++) {
 		ret = input_oem4(rawData, buff[i]);
-		
+
 		if (43 == ret) {
 			//存储rtcm3e格式文件;
 			raw2rtcm(&rawData->gps_dgnssdata, &rawData->bds_dgnssdata, rawData, ret);
 
-			/*
-			if (fabs(timediff(gps_dgnssdata.time, bds_dgnssdata.time))>1E-9) {
-				memset(&gps_dgnssdata, 0, sizeof(rtcm_t));
-				DgnssData_Init(&gps_dgnssdata);
-				memset(&bds_dgnssdata, 0, sizeof(rtcm_t));
-				DgnssData_Init(&bds_dgnssdata);
-				continue;	
-			}
-			*/
-			/*			
-			for (k = 0; k < nmsg; k++) {
-				if (0 == k) {
-					if (!gen_rtcm3(&rawData->gps_dgnssdata, mestype[k], k != m)) continue;
-				}					
-				else if (1 == k){
-					if (!gen_rtcm3(&rawData->bds_dgnssdata, mestype[k], k != m)) continue;
-				}	
-			}
-			*/
 			encode_type1005(&rawData->refstation, 1);
 
 			for (k = 0; k < nmsg; k++) {
@@ -2440,7 +2316,7 @@ void AssistData_Input(raw_t* rawData, int recid, char* buff, int len)
 			}
 
 			/**/
-			if ((rawData->bds_dgnssdata.obs.n > 0 && rawData->gps_dgnssdata.obs.n > 0)){
+			if ((rawData->bds_dgnssdata.obs.n > 0 && rawData->gps_dgnssdata.obs.n > 0)) {
 
 				rawData->dgnssDat.dgnss_flag = 1;
 
@@ -2456,7 +2332,7 @@ void AssistData_Input(raw_t* rawData, int recid, char* buff, int len)
 				rawData->gps_dgnssdata.obs.n = 0;
 				rawData->bds_dgnssdata.obs.n = 0;
 			}
-			
+
 			for (j = 0; j < 200; j++) {
 				rawData->refstation.buff[j] = '\0';
 			}
@@ -2467,163 +2343,10 @@ void AssistData_Input(raw_t* rawData, int recid, char* buff, int len)
 			}
 			/**/
 		}
-#if 0
-		else if (1047 == ret) {
-			//存储BDS星历格式文件,$AIDEPH
-			bdsprn = rawData->ephsat;
-			prn = bdsprn - 32;
-			sprintf(OutString, "$AIDEPH,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%lx,%x,%x,%lx,%x,%x,%lx,%x,%x,%lx,%lx,%lx,%x,%lx,%x,%x,%lx,%lx,%lx,%x",
-				(char)navSysbds, (char)datatype, (char)rawData->nav.eph[bdsprn - 1].sat - 32, (char)rawData->nav.eph[bdsprn - 1].fitinterval,
-				(char)rawData->nav.eph[bdsprn - 1].sva, (char)rawData->nav.eph[bdsprn - 1].svh, (U16)rawData->nav.eph[bdsprn - 1].week,
-				(S16)(rawData->nav.eph[bdsprn - 1].tgd[0] * (double)1e10), (U16)rawData->nav.eph[bdsprn - 1].iodc, (U8)rawData->nav.eph[bdsprn - 1].iode, (U32)rawData->nav.eph[bdsprn - 1].tocs,
-				(S16)ScaleDoubleDate(rawData->nav.eph[bdsprn - 1].f2, 66), (S32)ScaleDoubleDate(rawData->nav.eph[bdsprn - 1].f1, 50), (S32)ScaleDoubleDate(rawData->nav.eph[bdsprn - 1].f0, 33), (S32)ScaleDoubleDate(rawData->nav.eph[bdsprn - 1].crs, 6),
-				(S16)ScaleDoubleDateDivPi(rawData->nav.eph[bdsprn - 1].deln, 43), (S32)ScaleDoubleDateDivPi(rawData->nav.eph[bdsprn - 1].M0, 31), (S32)ScaleDoubleDate(rawData->nav.eph[prn - 1].cuc, 31), (S32)ScaleDoubleDate(rawData->nav.eph[bdsprn - 1].cus, 31),
-				(U32)ScaleDoubleDate(rawData->nav.eph[bdsprn - 1].e, 33), (U32)ScaleDoubleDate(rawData->nav.eph[bdsprn - 1].A, 19), (U32)rawData->nav.eph[bdsprn - 1].toes, (S32)ScaleDoubleDate(rawData->nav.eph[bdsprn - 1].cic, 31),
-				(S32)ScaleDoubleDateDivPi(rawData->nav.eph[bdsprn - 1].OMG0, 31), (S32)ScaleDoubleDate(rawData->nav.eph[bdsprn - 1].cis, 31), (S32)ScaleDoubleDate(rawData->nav.eph[bdsprn - 1].crc, 6), (S32)ScaleDoubleDateDivPi(rawData->nav.eph[bdsprn - 1].i0, 31),
-				(S32)ScaleDoubleDateDivPi(rawData->nav.eph[bdsprn - 1].omg, 31), (S32)ScaleDoubleDateDivPi(rawData->nav.eph[bdsprn - 1].OMGd, 43), (S16)ScaleDoubleDateDivPi(rawData->nav.eph[bdsprn - 1].idot, 43));
-			bCheckSum = CalCheckSum(OutString + 1);
-			sprintf(StrFormat, "*%02X\r\n", bCheckSum);
-			strcat(OutString, StrFormat);
-			len = strlen(OutString);
-			strncpy(&(rawData->assistData.ADdec.aideph_bds[prn - 1]), OutString, len);
-			rawData->assistData.ADdec.bdsmask_low |= 1 << (prn - 1);
-			rawData->assistData.ADdec.aideph_bdscnt = rawData->assistData.ADdec.aideph_bdscnt + 1;
-		}
-		else if (7 == ret) {
-			//存储GPS星历格式文件,$AIDEPH
-			prn = rawData->ephsat;
-			sprintf(OutString, "$AIDEPH,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%lx,%x,%x,%lx,%x,%x,%lx,%x,%x,%lx,%lx,%lx,%x,%lx,%x,%x,%lx,%lx,%lx,%x",
-				(char)navSygps, (char)datatype, (char)rawData->nav.eph[prn - 1].sat, (char)rawData->nav.eph[prn - 1].fitinterval,
-				(char)rawData->nav.eph[prn - 1].sva, (char)rawData->nav.eph[prn - 1].svh, (U16)rawData->nav.eph[prn - 1].week,
-				(S8)ScaleDoubleDate(rawData->nav.eph[prn - 1].tgd[0], 31), (U16)rawData->nav.eph[prn - 1].iodc, (U8)rawData->nav.eph[prn - 1].iode, (U32)rawData->nav.eph[prn - 1].tocs,
-				(S8)ScaleDoubleDate(rawData->nav.eph[prn - 1].f2, 55), (S16)ScaleDoubleDate(rawData->nav.eph[prn - 1].f1, 43), (S32)ScaleDoubleDate(rawData->nav.eph[prn - 1].f0, 31), (S16)ScaleDoubleDate(rawData->nav.eph[prn - 1].crs, 5),
-				(S16)ScaleDoubleDateDivPi(rawData->nav.eph[prn - 1].deln, 43), (S32)ScaleDoubleDateDivPi(rawData->nav.eph[prn - 1].M0, 31), (S16)ScaleDoubleDate(rawData->nav.eph[prn - 1].cuc, 29), (S16)ScaleDoubleDate(rawData->nav.eph[prn - 1].cus, 29),
-				(U32)ScaleDoubleDate(rawData->nav.eph[prn - 1].e, 33), (U32)ScaleDoubleDate(rawData->nav.eph[prn - 1].A, 19), (U32)rawData->nav.eph[prn - 1].toes, (S16)ScaleDoubleDate(rawData->nav.eph[prn - 1].cic, 29),
-				(S32)ScaleDoubleDateDivPi(rawData->nav.eph[prn - 1].OMG0, 31), (S16)ScaleDoubleDate(rawData->nav.eph[prn - 1].cis, 29), (S16)ScaleDoubleDate(rawData->nav.eph[prn - 1].crc, 5), (S32)ScaleDoubleDateDivPi(rawData->nav.eph[prn - 1].i0, 31),
-				(S32)ScaleDoubleDateDivPi(rawData->nav.eph[prn - 1].omg, 31), (S32)ScaleDoubleDateDivPi(rawData->nav.eph[prn - 1].OMGd, 43), (S16)ScaleDoubleDateDivPi(rawData->nav.eph[prn - 1].idot, 43));
-			bCheckSum = CalCheckSum(OutString + 1);
-			sprintf(StrFormat, "*%02X\r\n", bCheckSum);
-			strcat(OutString, StrFormat);
-			len = strlen(OutString);
-			strncpy(&(rawData->assistData.ADdec.aideph_gps[prn - 1]), OutString, len);
-			rawData->assistData.ADdec.gpsmask |= 1 << (prn - 1);
-			rawData->assistData.ADdec.aideph_gpscnt = rawData->assistData.ADdec.aideph_gpscnt + 1;	
-		}
-		else if (1047 != ret && 7 != ret) {
-			if (rawData->assistData.ADdec.aideph_gpscnt > 7 || rawData->assistData.ADdec.aideph_bdscnt > 7) {
-				rawData->assistData.ADdec.aidupdate = 1;
-			}		
-		}
-		*/
-#endif
-	}
-//	fclose(fp1);
 
+
+	}
 }
-
-/*
-void AssistData_Input(raw_t* rawData, int recid, char* buff, int len)
-{
-    int i;
-    int ret,ret_decode;
-	raw_t* prawData = rawData;
-	prawData->len = len;
-	for (i = 0; i < len; i++) {
-		if (0 == prawData->nbyte) {
-			if (sync_oem4(prawData->buff, buff[i])) {
-				prawData->flag = 1;
-				prawData->nbyte = 3;
-				break;
-			}
-		}
-		
-	}
-	if (1 == prawData->flag) {
-		memcpy(prawData->buff, buff, len);
-		//memcpy(prawData->buff + 3, buff + 3, len - 3);
-	}
-
-	//decode OEM4
-	decode_oem4(rawData);
-*/
-/*
-		if (0 != ret) {
-			switch (ret) {
-			case 43:    decode_type43(messageRange, buff,len);       break;//decode_type43 Range information
-			case 1047:  decode_type1047(messageRange, buff, len);    break;//BD2EPHEM;
-			case 723:   decode_type723(messageRange, buff, len);     break;//GLOEPHEMERIS GLONASS ephemeris data;
-			case 7:     decode_type7(messageRange, buff, len);       break;//GPSEPHEM GPS ephemeris data;
-			}
-		}
-		 
-        if (0 == strncmp((char*)pADdec->buff, NLBS_GPSEPH, strlen(NLBS_GPSEPH))) {
-            AgnssData_MxtAideph(assistData, (char*)pADdec->buff);
-        }
-		if ((0 == strncmp((char*)pADdec->buff, NLBS_GPSEPH, strlen(NLBS_GPSEPH))) && 1 == pADdec->ADecflag && pADdec->aideph_gpscnt >7 && pADdec->aideph_bdscnt >7) {
-				pADdec->aidupdate = 1;//
-			}
-    }
-
-}*/
-/*
-void DgnssData_Manage(DgnssDat* dgnssdata)
-{
-
-}
-*/
-
-void AssistData_Manage(AssistData* assistData, const UTCTM* putctm)
-{
-    int prn;
-	int len;
-	AssistData* pAdata = assistData;
-    ADdecode* pADdec = &(assistData->ADdec);
-    pAdata->manage_tick++;
-/*
-	if (assistData->ADdec.aideph_bdscnt > 3 && assistData->ADdec.aideph_gpscnt > 3) {
-		assistData->ADdec.aidupdate = 1;
-	}
-*/
-    if (0 == assistData->ADdec.aidupdate) return;
-
-	pAdata->bdsmask_low = pAdata->ADdec.bdsmask_low;
-	pAdata->bdsmask_high = pAdata->ADdec.bdsmask_high;
-	pAdata->gpsmask = pAdata->ADdec.gpsmask;
-
-    pAdata->manage_tick_data = pAdata->manage_tick;
-
-    pAdata->aideph_gps_len = 0;
-    for (prn=1; prn<=32; prn++) {
-        if (pAdata->gpsmask&(1<<(prn-1))) {
-            len = strlen(pADdec->aideph_gps[prn-1]);
-            strncpy(&(pAdata->aideph_gps[pAdata->aideph_gps_len]), pADdec->aideph_gps[prn-1], len);
-            pAdata->aideph_gps_len += len;
-        }
-    }
-
-    pAdata->aideph_bds_len = 0;
-    for (prn=1; prn<=14; prn++) {
-        if (pAdata->bdsmask_low&(1<<(prn-1))) {
-            len = strlen(pADdec->aideph_bds[prn-1]);
-            strncpy(&(pAdata->aideph_bds[pAdata->aideph_bds_len]), pADdec->aideph_bds[prn-1], len);
-            pAdata->aideph_bds_len += len;
-        }
-    }
-
-	pAdata->all_aideph_gpsbds_len = 0;
-    pAdata->aideph_gpsbds_len = 0;
-
-    strncpy(pAdata->aideph_gpsbds+pAdata->aideph_gpsbds_len, pAdata->aideph_gps, pAdata->aideph_gps_len);
-    pAdata->aideph_gpsbds_len += pAdata->aideph_gps_len;
-    strncpy(pAdata->aideph_gpsbds+pAdata->aideph_gpsbds_len, pAdata->aideph_bds, pAdata->aideph_bds_len);
-    pAdata->aideph_gpsbds_len += pAdata->aideph_bds_len;
-
-	strncpy(pAdata->all_aideph_gpsbds + pAdata->all_aideph_gpsbds_len, pAdata->aideph_gpsbds, pAdata->aideph_gpsbds_len);
-	pAdata->all_aideph_gpsbds_len += pAdata->aideph_gpsbds_len;
-
-}
-
-/**/
 
 
 

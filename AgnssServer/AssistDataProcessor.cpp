@@ -25,27 +25,6 @@ void AssistDataProcessor::input(AgnssFrameHeader& header, const void* data, size
 	AssistData_Input(&m_data, 0, (char*)data, length);
 }
 
-/*
-bool AssistDataProcessor::getOutputDGNSS(DgnssDatAll& data)
-{
-	comn::AutoCritSec lock(m_cs);
-
-	comn::DateTime dt = comn::DateTime::now();
-
-	if (0 == m_data.dgnssDat.dgnss_flag) return false;
-
-	//DgnssData_Manage(&m_data.dgnssDat);
-
-	data.dgnss_gpslen = m_data.dgnssDat.dgnss_gpslen;
-	memcpy(data.dgnss_gps, m_data.dgnssDat.dgnss_gps, m_data.dgnssDat.dgnss_gpslen);
-
-	data.dgnss_bdslen = m_data.dgnssDat.dgnss_bdslen;
-	memcpy(data.dgnss_bds, m_data.dgnssDat.dgnss_bds, m_data.dgnssDat.dgnss_bdslen);
-
-	return true;
-	
-}
-*/
 
 bool AssistDataProcessor::getOutput(AgnssParam& param, DgnssDatAll& data)
 {
@@ -62,11 +41,6 @@ bool AssistDataProcessor::getOutput(AgnssParam& param, DgnssDatAll& data)
 	utctm.sec = dt.getSecond();
 
 	if(m_data.dgnssDat.dgnss_flag == 0) return false;
-
-   // (3600 < 15*(m_data.manage_tick - m_data.manage_tick_data)) return false;
-   //if(m_data.assistData.ADdec.aidupdate == 0 )return false;
-   // if (0 == m_data.assistData.aideph_gpsbds_len) return false;
-   //AssistData_Manage(&m_data.assistData, &utctm);
 
 	param.basetime = 3;
     param.flag = 1;
@@ -111,30 +85,6 @@ bool AssistDataProcessor::getOutput(AgnssParam& param, DgnssDatAll& data)
 		data.dgnss_flag = 1;
 		m_data.dgnssDat.dgnss_flag = 0;
 	}
-
-#if 0
-	param.bdsmask_low = m_data.assistData.bdsmask_low;
-	param.bdsmask_high = m_data.assistData.bdsmask_high;
-	param.gpsmask = m_data.assistData.gpsmask;
-
-	data.aideph_gps_len = m_data.assistData.aideph_gps_len;
-	memcpy(data.aideph_gps, m_data.assistData.aideph_gps, m_data.assistData.aideph_gps_len);
-
-	data.aideph_bds_len = m_data.assistData.aideph_bds_len;
-	memcpy(data.aideph_bds, m_data.assistData.aideph_bds, m_data.assistData.aideph_bds_len);
-
-	data.aideph_gpsbds_len = m_data.assistData.aideph_gpsbds_len;
-	memcpy(data.aideph_gpsbds, m_data.assistData.aideph_gpsbds, m_data.assistData.aideph_gpsbds_len);
-
-	data.all_aideph_gpsbds_len = m_data.assistData.all_aideph_gpsbds_len;
-	memcpy(data.all_aideph_gpsbds, m_data.assistData.all_aideph_gpsbds, m_data.assistData.all_aideph_gpsbds_len);
-
-	if (1 == m_data.assistData.ADdec.aidupdate)
-	{
-		data.aideph_flag = 1;
-		AssistData_Init(&m_data);
-	}
-#endif
 
 	return true;
 }
