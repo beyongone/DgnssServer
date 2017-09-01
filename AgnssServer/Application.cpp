@@ -24,6 +24,7 @@
 	const char* LOG_FILE     = "/var/log/AgnssServer.log";
 #endif //
 
+#define UINT_MAX      0xffffffff    // maximum unsigned int value
 static Application* s_application = NULL;
 
 static char* encode(char *out, int out_size, const unsigned char *in, int in_size);
