@@ -1,11 +1,11 @@
 ﻿//////////////////////////////////////////////////////////////////////////
 
-
 #include <stdio.h>
 #include <time.h>
 #include "AssistData.h"
 #include <string.h>  
-#include <WTypesbase.h>
+//#include <WTypesbase.h>
+#include <windows.h>  
 #include <math.h>
 #ifndef WIN32
 #include <dirent.h>

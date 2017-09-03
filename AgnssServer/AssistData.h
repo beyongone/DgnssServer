@@ -524,6 +524,15 @@ typedef struct _tagTureCORS_Messaage_Range {
 } TureCORS_Messaage_Range;
 
 
+typedef unsigned long       DWORD;
+
+//
+//  File System time stamps are represented with the following structure:
+//
+
+
+/**/
+
 // 初始化
 void AssistData_Init(raw_t* rawData);
 
