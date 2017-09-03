@@ -5,7 +5,9 @@
 #include "AssistData.h"
 #include <string.h>  
 //#include <WTypesbase.h>
+#ifdef WIN32
 #include <windows.h>  
+#endif
 #include <math.h>
 #ifndef WIN32
 #include <dirent.h>
