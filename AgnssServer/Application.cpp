@@ -19,9 +19,9 @@
 
 
 #ifdef WIN32
-	const char* LOG_FILE     = "AgnssServer.log";
+	const char* LOG_FILE     = "DgnssServer.log";
 #else
-	const char* LOG_FILE     = "/var/log/AgnssServer.log";
+	const char* LOG_FILE     = "/var/log/DgnssServer.log";
 #endif //
 
 #define UINT_MAX      0xffffffff    // maximum unsigned int value

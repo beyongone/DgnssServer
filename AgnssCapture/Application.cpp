@@ -16,9 +16,9 @@
 
 
 #ifdef WIN32
-	const char* LOG_FILE     = "AgnssCapture.log";
+	const char* LOG_FILE     = "DgnssCapture.log";
 #else
-	const char* LOG_FILE     = "/var/log/AgnssCapture.log";
+	const char* LOG_FILE     = "/var/log/DgnssCapture.log";
 #endif //
 
 static Application* s_application = NULL;
